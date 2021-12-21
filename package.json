@@ -1,0 +1,16 @@
+{
+  "name": "object-compression",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "gw2princeps",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "node index.js"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.5",
+    "json-url": "^3.0.0"
+  }
+}
