@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "json-url": "^3.0.0"
+    "json-url": "^3.0.0",
+    "lzma": "^2.3.2"
   }
 }
