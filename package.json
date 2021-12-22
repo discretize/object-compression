@@ -7,11 +7,12 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "node index.js"
+    "build": "node index.js",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.5",
-    "json-url": "^3.0.0",
-    "lzma": "^2.3.2"
-  }
+    "json-url": "^3.0.0"
+  },
+  "devDependencies": {}
 }
