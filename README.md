@@ -3,7 +3,7 @@ Traditional compression algorithms and methods work already rather well on objec
 ## Installation
 
 ```
-yarn add discretize-object-compression
+yarn add @discretize/object-compression
 ```
 
 For example usage please check the file `test/tests.js`.

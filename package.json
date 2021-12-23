@@ -1,5 +1,5 @@
 {
-  "name": "discretize-object-compression",
+  "name": "@discretize/object-compression",
   "version": "1.0.0",
   "main": "lib/index.js",
   "module": "es/index.js",
