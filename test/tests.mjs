@@ -8,8 +8,8 @@ import {
   sigilDict,
   specializationDict,
   weaponTypeDict,
-} from "./dicts.js";
-import { compress, decompress } from "../src/valueList.js";
+} from "./dicts.mjs";
+import { compress, decompress } from "../lib/index.js";
 
 const bigObject = {
   character: {
