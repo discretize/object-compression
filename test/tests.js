@@ -9,7 +9,7 @@ import {
   specializationDict,
   weaponTypeDict,
 } from "./dicts.js";
-import { compress, decompress } from "../valueList.mjs";
+import { compress, decompress } from "../src/valueList.js";
 
 const bigObject = {
   character: {

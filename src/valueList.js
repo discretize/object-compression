@@ -1,5 +1,4 @@
-import JsonUrl from "json-url";
-const lib = JsonUrl("lzma");
+const lib = require("json-url")("lzma");
 
 const compress = ({ object, schema, onSuccess }) => {
   const transform = (source, _schema) => {
