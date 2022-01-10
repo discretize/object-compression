@@ -17,25 +17,27 @@ const compress = ({ object, schema, onSuccess }) => {
 
     // collect the result, which is an array of all leafs in this part of the tree
     let result = [];
-    Object.entries(source).forEach(([key, value]) => {
-      if (
-        _schema[key] &&
-        typeof _schema[key] === "object" &&
-        _schema[key].hasOwnProperty("dict")
-      ) {
-        const { type, dict } = _schema[key];
-        result = [
-          ...result,
-          // only apply transformation function if it exists, else keep source value
-          type === "array"
-            ? Object.values(source[key]).map((val) => dict.indexOf(val))
-            : dict.indexOf(source[key]),
-        ];
-      } else {
-        // in case there is no transformation function, dig deeper
-        result = [...result, ...transform(source[key], _schema[key])];
-      }
-    });
+    Object.entries(source)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .forEach(([key, value]) => {
+        if (
+          _schema[key] &&
+          typeof _schema[key] === "object" &&
+          _schema[key].hasOwnProperty("dict")
+        ) {
+          const { type, dict } = _schema[key];
+          result = [
+            ...result,
+            // only apply transformation function if it exists, else keep source value
+            type === "array"
+              ? Object.values(source[key]).map((val) => dict.indexOf(val))
+              : dict.indexOf(source[key]),
+          ];
+        } else {
+          // in case there is no transformation function, dig deeper
+          result = [...result, ...transform(source[key], _schema[key])];
+        }
+      });
     return result;
   };
   const transformed = transform(object, schema);
@@ -58,13 +60,15 @@ const decompress = ({ string, schema, onSuccess }) => {
       }
       // assemble object for this subtree
       const result = {};
-      Object.entries(skeleton).forEach(([key, value]) => {
-        if (!skeleton[key]) {
-          result[key] = values[i++];
-        } else {
-          result[key] = transform(skeleton[key], values);
-        }
-      });
+      Object.entries(skeleton)
+        .sort((a, b) => b[0].localeCompare(a[0]))
+        .forEach(([key, value]) => {
+          if (!skeleton[key]) {
+            result[key] = values[i++];
+          } else {
+            result[key] = transform(skeleton[key], values);
+          }
+        });
       return result;
     };
 
