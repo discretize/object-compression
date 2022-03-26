@@ -186,4 +186,29 @@ describe("valuesList-algo", function () {
       });
     });
   });
+
+  describe("compress+decompress with ignore", function () {
+    it("object should be compressed to the matching base64 string", function (done) {
+      const toCompress = { ...bigObject, z: { lalala: 23.5, abc: 1 } };
+      const newSchema = { ...schema, z: { type: "ignore" } };
+      const expectedCompressed =
+        "XQAAAAKaAAAAAAAAAABuAABIGFeW-Lvn6CuNjJfAB1AOzC2_qwyi2dm0o4wNs7-f6bdEGaDfa8vRmXMsUGsK2eYpRTp7bdwqTnUbYCXvsW06isJJzcezPjViO_Jgqr0_vMQ4DGd84ZzwkRAsq_LwL3oz6_OljC7LQOyOPiRznMyiFWRY2LJ7FxHAjcaDD26kcFxRQ_cjNwWfduCI_9taUAA";
+
+      compress({
+        object: toCompress,
+        schema: newSchema,
+        onSuccess: (result) => {
+          assert.strictEqual(result, expectedCompressed);
+          decompress({
+            string: result,
+            schema: newSchema,
+            onSuccess: (result) => {
+              assert.deepEqual(result, toCompress);
+              done();
+            },
+          });
+        },
+      });
+    });
+  });
 });

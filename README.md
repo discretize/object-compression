@@ -21,14 +21,16 @@ const schema = {
   intValue: null,
   stringValue: { type: "value", dict: stringDict },
   arrayValue: { type: "array", dict: otherValuesDict },
+  ignoredValue: { type: "ignore" },
 };
 ```
 
-There are 3 types of value declaration for the schema values:
+There are a number of types available for declaration for the schema values:
 
-- null: dont apply any transformation to this key
+- null: dont apply any transformation to this key. May only be a primitive type, not an object
 - Object with type "value": string value, the dict must contain all possible strings.
 - Object with type "array": array value, the dict must contain all possible values for the elements of the array.
+- Object with type "ignore": the entire object is ignored. It is stringified. On decompress an ignored object will get parsed again.
 
 ### Dicts
 

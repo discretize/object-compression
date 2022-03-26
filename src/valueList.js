@@ -20,18 +20,14 @@ const compress = ({ object, schema, onSuccess }) => {
     Object.entries(source)
       .sort((a, b) => b[0].localeCompare(a[0]))
       .forEach(([key, value]) => {
-        if (
-          _schema[key] &&
-          typeof _schema[key] === "object" &&
-          _schema[key].hasOwnProperty("dict")
-        ) {
+        if (_schema[key]?.type === "ignore") {
+          result = [...result, JSON.stringify(source[key])];
+        } else if (_schema[key] && typeof _schema[key] === "object" && _schema[key].hasOwnProperty("dict")) {
           const { type, dict } = _schema[key];
           result = [
             ...result,
             // only apply transformation function if it exists, else keep source value
-            type === "array"
-              ? Object.values(source[key]).map((val) => dict.indexOf(val))
-              : dict.indexOf(source[key]),
+            type === "array" ? Object.values(source[key]).map((val) => dict.indexOf(val)) : dict.indexOf(source[key]),
           ];
         } else {
           // in case there is no transformation function, dig deeper
@@ -48,15 +44,19 @@ const decompress = ({ string, schema, onSuccess }) => {
   lib.decompress(string).then((valueList) => {
     let i = 0;
     const transform = (skeleton, values) => {
-      if (skeleton && skeleton.hasOwnProperty("dict")) {
-        // reached a leaf, determine possible dict reversal
-        if (skeleton.type === "array") {
-          return values[i++].map((val) => skeleton.dict[val]);
-        } else if (skeleton.type === "value") {
-          return skeleton.dict[values[i++]];
+      if (skeleton) {
+        if (skeleton.type === "ignore") {
+          return JSON.parse(values[i++]);
         }
-
-        return skeleton;
+        if (skeleton.hasOwnProperty("dict")) {
+          // reached a leaf, determine possible dict reversal
+          if (skeleton.type === "array") {
+            return values[i++].map((val) => skeleton.dict[val]);
+          } else if (skeleton.type === "value") {
+            return skeleton.dict[values[i++]];
+          }
+          return skeleton;
+        }
       }
       // assemble object for this subtree
       const result = {};
