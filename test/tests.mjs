@@ -137,7 +137,7 @@ const schema = {
 };
 
 const compressed =
-  "XQAAAAKCAAAAAAAAAABuAAAqagHaAieiLB1bBS2p4chozVDJYKU5mYczo5pau2ex2gAyO83d37P98GmhmQgq5gTz7SceKzWVX57Vaa6kdHK-0ok2OiKuDXRF3lRsx1cNJF1__2SvbXvAaNfKN9nOXvd3Ws15i66GhMKvRjZa6M57iM1eWPrljwA";
+  "XQAAAAKCAAAAAAAAAABuAAAntmhi13COU1mBLI8OVbL9XgBlUJoxEi1NsGtYapeu3yNvlOY5biF8GGP7-BT5xwf_Sf9mRpKyOkoTkuRRj7EW4pH4bIxYYW5MaRbJ4ww3SqUWCY64JXyG2KgSHt-2ac0b5AdEeKh-gwSi1Krj2Ehhm08W8__fmcAA";
 
 describe("valuesList-algo", function () {
   describe("#compress()", function () {
@@ -146,7 +146,7 @@ describe("valuesList-algo", function () {
         object: bigObject,
         schema,
         onSuccess: (result) => {
-          assert(result, compressed);
+          assert.strictEqual(result, compressed);
           done();
         },
       });
@@ -159,7 +159,7 @@ describe("valuesList-algo", function () {
         string: compressed,
         schema,
         onSuccess: (result) => {
-          assert(JSON.stringify(result), JSON.stringify(bigObject));
+          assert.deepEqual(result, bigObject);
           done();
         },
       });
@@ -178,7 +178,7 @@ describe("valuesList-algo", function () {
             string: result,
             schema,
             onSuccess: (result) => {
-              assert(JSON.stringify(result), JSON.stringify(object));
+              assert.deepEqual(result, object);
               done();
             },
           });
